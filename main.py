@@ -52,9 +52,9 @@ class TradeOrder:
         price_to_buy = calculate_current_buy_price(app)
         self.printFunction(f'type: {orderType}, strategy: {stratType}, quantity: {quantity}')
         if orderType == 'profit_taker':
-            set_order_profit_taker(stratType, quantity, 'LMT', str(price_to_buy), delta, contract, app)
+            set_order_profit_taker(stratType, quantity, 'MKT', str(price_to_buy), delta, contract, app)
         if orderType == 'stop_loss':
-            set_bracket_order(stratType, quantity, 'LMT', str(price_to_buy), delta, contract, app, ratio)
+            set_bracket_order(stratType, quantity, 'MKT', str(price_to_buy), delta, contract, app, ratio)
 
         return price_to_buy
 
@@ -151,8 +151,10 @@ class TradeOrder:
                 self.stop_loss_loop(self.app, self.taken_space, self.delta, price_bought, self.currentContract, self.quantity, self.ratio)
             
 
-
-        self.app.disconnect()
+        try:
+            self.app.disconnect()
+        except:
+            print('disconnect')
 
 
 
